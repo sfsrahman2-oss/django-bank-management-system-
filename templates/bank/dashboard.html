@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">🏦 Bank Dashboard</h2>
+        <p class="text-muted mb-0">
+            Welcome, {{ request.user.first_name|default:request.user.username }}
+        </p>
+    </div>
+
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger">
+        Logout
+    </a>
+</div>
+
+
+{% if account %}
+
+<!-- Account Card -->
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+        <h5 class="card-title">Bank Account</h5>
+
+        <p class="mb-1">
+            <strong>Account Holder:</strong>
+            {{ account.account_holder_name }}
+        </p>
+
+        <p class="mb-0">
+            <strong>Account Number:</strong>
+            {{ account.account_number }}
+        </p>
+    </div>
+</div>
+
+
+<!-- Statistics -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Current Balance</p>
+                <h3 class="fw-bold">
+                    ৳ {{ account.current_balance }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total Deposits</p>
+                <h3 class="fw-bold text-success">
+                    ৳ {{ total_deposits }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total Withdrawals</p>
+                <h3 class="fw-bold text-danger">
+                    ৳ {{ total_withdrawals }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Transactions</p>
+                <h3 class="fw-bold text-primary">
+                    {{ total_transactions }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Actions -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        <h5 class="mb-3">Quick Actions</h5>
+
+        <a href="{% url 'deposit' %}" class="btn btn-success me-2">
+            + Deposit Money
+        </a>
+
+        <a href="{% url 'withdraw' %}" class="btn btn-danger me-2">
+            − Withdraw Money
+        </a>
+
+        <a href="{% url 'transaction_history' %}" class="btn btn-primary">
+            Transaction History
+        </a>
+
+    </div>
+</div>
+
+
+{% else %}
+
+<!-- No Account -->
+<div class="card shadow-sm border-0 text-center">
+    <div class="card-body py-5">
+
+        <h3>No Bank Account Yet</h3>
+
+        <p class="text-muted">
+            Create your bank account to start using the banking system.
+        </p>
+
+        <a href="{% url 'create_account' %}" class="btn btn-primary">
+            Create Bank Account
+        </a>
+
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %} 
